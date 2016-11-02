@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chat Room</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<h1>Chat Room</h1>
+	<ul id="messages"></ul>
+	<input type="text" id="input-message">
+	<button class="submit">Send</button>
+
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	
+	<script>
+
+	var socket = io();
+	var inputMessage = document.querySelector('#input-message');
+	var button = document.querySelector('.submit');
+	var messages = document.querySelector('#messages')
+	button.addEventListener('click', function (e) {
+		e.preventDefault(e);
+		socket.emit('chat message', inputMessage.value);
+		inputMessage.value = '';
+	});
+
+	socket.on('chat message', function(msg) {
+		var li  = document.createElement('li');
+		messages.appendChild(li).innerHTML = msg;
+	});
+
+	</script>
+
+</body>
+</html>
